@@ -26,7 +26,6 @@ jobs:
     name: Build Development
     # if: github.event_name == 'pull_request'
     # if: github.event.ref == 'refs/heads/origin/dev'
-    needs: [Build]
     runs-on: ubuntu-latest
     strategy:
       matrix:
