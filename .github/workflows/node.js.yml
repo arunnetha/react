@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main", "uat", "dev" ]
+    branches: [ "main", "uat", "origin/dev" ]
   pull_request:
     branches: [ "main", "uat", "origin/dev"]
   workflow_dispatch:
