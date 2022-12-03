@@ -11,18 +11,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    steps:
-      - uses: actions/checkout@v3
-      - name: compile
-        run: echo compiling
-  
   Build_dev:
     name: Build Development
     # if: github.event_name == 'pull_request'
@@ -56,13 +44,16 @@ jobs:
           name: react-github-actions-build
           path: build
 
-  Build_uat:
-    name: Build UAT
-    if: github.event.ref == 'refs/heads/uat'
+  Feature_build:
+    name: Build feature
+    # if: github.event_name == 'pull_request'
+    if: |
+      github.event.ref == 'refs/heads/uat'
+      github.event_name == 'pull_request'
     needs: [Build]
     runs-on: ubuntu-latest
     environment: 
-      name: Development
+      name: feature
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
