@@ -11,48 +11,48 @@ on:
   workflow_dispatch:
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [12.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    # steps:
-    #   - uses: actions/checkout@v3
-    #   - name: compile
-    #     run: echo compiling
-  
-  Build_dev:
-    name: Build Development
-    # if: github.event_name == 'pull_request'
-    # if: github.event.ref == 'refs/heads/origin/dev'
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x]
-    environment: 
-      name: Development
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        # uses: actions/setup-node@v3
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - name: Install dependencies, build and test
-        run: |
-            npm install
-            npm run build
-            npm test
+      - uses: actions/checkout@v3
+      - name: compile
+        run: echo compiling
+  
+  # Build_dev:
+  #   name: Build Development
+  #   # if: github.event_name == 'pull_request'
+  #   # if: github.event.ref == 'refs/heads/origin/dev'
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [12.x]
+  #   environment: 
+  #     name: Development
+  #   steps:
+  #     - name: Clone repository
+  #       uses: actions/checkout@v3
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       # uses: actions/setup-node@v3
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #         cache: 'npm'
+  #     - name: Install dependencies, build and test
+  #       run: |
+  #           npm install
+  #           npm run build
+  #           npm test
       
-      # Share artifact inside workflow
-      - name: Share artifact inside workflow
-        uses: actions/upload-artifact@v3
-        with:
-          name: react-github-actions-build
-          path: build
+  #     # Share artifact inside workflow
+  #     - name: Share artifact inside workflow
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: react-github-actions-build
+  #         path: build
 
   # Build_uat:
   #   name: Build UAT
