@@ -12,6 +12,7 @@ on:
 
 jobs:
   build:
+    name: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,37 +23,37 @@ jobs:
       - name: compile
         run: echo compiling
   
-  # Build_dev:
-  #   name: Build Development
-  #   # if: github.event_name == 'pull_request'
-  #   # if: github.event.ref == 'refs/heads/origin/dev'
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [12.x]
-  #   environment: 
-  #     name: Development
-  #   steps:
-  #     - name: Clone repository
-  #       uses: actions/checkout@v3
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       # uses: actions/setup-node@v3
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         cache: 'npm'
-  #     - name: Install dependencies, build and test
-  #       run: |
-  #           npm install
-  #           npm run build
-  #           npm test
+  Build_dev:
+    name: Build Development
+    # if: github.event_name == 'pull_request'
+    # if: github.event.ref == 'refs/heads/origin/dev'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    environment: 
+      name: Development
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        # uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies, build and test
+        run: |
+            npm install
+            npm run build
+            npm test
       
-  #     # Share artifact inside workflow
-  #     - name: Share artifact inside workflow
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: react-github-actions-build
-  #         path: build
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-github-actions-build
+          path: build
 
   # Build_uat:
   #   name: Build UAT
