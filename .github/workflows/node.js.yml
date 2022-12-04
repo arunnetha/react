@@ -28,9 +28,6 @@ jobs:
         with:
           name: arunnetha/react    #https://github.com/arunnetha/react.git
           ref: refs/heads/origin/dev
-      - name: cmd
-        run: |
-            ls
       - name: Use Node.js ${{ matrix.node-version }}
         # uses: actions/setup-node@v3
         uses: actions/setup-node@v1
