@@ -36,6 +36,7 @@ jobs:
           cache: 'npm'
       - name: Install dependencies, build and test
         run: |
+            cd react
             npm install
             npm run build
             npm test
