@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           name: arunnetha/react    #https://github.com/arunnetha/react.git
-          ref: refs/origin/dev
+          ref: refs/heads/origin/dev
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         # uses: actions/setup-node@v1
