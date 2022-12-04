@@ -13,8 +13,9 @@ on:
 jobs:
   Build_dev:
     name: Build Development
-    # if: github.event_name == 'pull_request'
-    if: github.event.ref == 'refs/heads/origin/dev'
+    if: |
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.head_ref == 'master')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,9 +25,12 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
+        with:
+          name: arunnetha/react    #https://github.com/arunnetha/react.git
+          ref: refs/heads/origin/dev
       - name: Use Node.js ${{ matrix.node-version }}
-        # uses: actions/setup-node@v3
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
+        # uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -45,7 +49,9 @@ jobs:
 
   Feature_build:
     name: Build feature
-    if: github.event.ref == 'refs/heads/uat'
+    if: |
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.head_ref == 'master')
     # if: github.event_name == 'pull_request'
     needs: [Build_dev]
     runs-on: ubuntu-latest
@@ -54,6 +60,9 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
+        with:
+          name: arunnetha/react    #https://github.com/arunnetha/react.git
+          ref: refs/heads/uat
       - name: Use Node.js ${{ matrix.node-version }}
         # uses: actions/setup-node@v3
         uses: actions/setup-node@v1
@@ -76,8 +85,9 @@ jobs:
 
   Build_Production:
     name: Build Production
-    # if: github.event.ref == 'refs/heads/main'
-    if: github.event_name == 'pull_request'
+    if: |
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.head_ref == 'master')
     needs: [Build_dev]
     runs-on: ubuntu-latest
     environment: 
@@ -85,6 +95,9 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
+        with:
+          name: arunnetha/react    #https://github.com/arunnetha/react.git
+          ref: refs/heads/origin/master
       - name: Use Node.js ${{ matrix.node-version }}
         # uses: actions/setup-node@v3
         uses: actions/setup-node@v1
