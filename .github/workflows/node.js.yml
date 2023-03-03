@@ -42,7 +42,7 @@ jobs:
             # npm install
             # npm run build
             # npm test
-            echo env.TEST1
+            echo $TEST1
       
       # Share artifact inside workflow
       - name: Share artifact inside workflow
