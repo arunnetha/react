@@ -1,0 +1,39 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "development" ]
+  pull_request:
+    branches: ["qa"]
+  workflow_dispatch:
+
+jobs:
+  Build_dev:
+    name: Build Development
+    if: github.event_name == 'push' || github.head_ref == 'development'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    environment: 
+      name: Development
+    steps:
+      - name: dev build
+        uses: actions/checkout@v2
+      - run: ls
+  Build_uat:
+    name: Build uat
+    if: github.event_name == 'pull_request' || github.head_ref == 'qa'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    environment: 
+      name: uat
+    steps:
+      - name: dev build
+        uses: actions/checkout@v2
+      - run: ls
