@@ -22,6 +22,7 @@ jobs:
         node-version: [12.x]
     env:
       branchname: refs/heads/origin/dev
+      TEST1: env.TEST1
     environment: 
       name: Development
     steps:
