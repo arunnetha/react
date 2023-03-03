@@ -5,13 +5,28 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main", "uat", "origin/dev" ]
+    branches: [ "origin/dev" ]
+  pull_request:
+    branches: [ "uat", "main" ]
   workflow_dispatch:
 
 jobs:
   Build_dev:
     name: Build Development
     if: github.event_name == 'push' && github.head_ref == 'origin/dev'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    environment: 
+      name: Development
+    steps:
+      - name: dev build
+        uses: actions/checkout@v2
+      - run: ls
+  Build_uat:
+    name: Build Development
+    if: github.event_name == 'pull_request' && github.head_ref == 'uat'
     runs-on: ubuntu-latest
     strategy:
       matrix:
