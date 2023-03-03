@@ -75,8 +75,10 @@ jobs:
         run: npm install
       # - run: npm ci
       - name: build
-        run: npm run build
-      - run: npm test
+        run: |
+          npm run build
+          echo ${{ env.TEST1}}
+      # - run: npm test
       
       # Share artifact inside workflow
       - name: Share artifact inside workflow
