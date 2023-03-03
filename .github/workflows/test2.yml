@@ -11,7 +11,7 @@ on:
 jobs:
   Build_dev:
     name: Build Development
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.head_ref == 'origin/dev'
     runs-on: ubuntu-latest
     strategy:
       matrix:
