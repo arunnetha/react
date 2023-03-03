@@ -54,9 +54,10 @@ jobs:
 
   Feature_build:
     name: Build feature
-    if: |
-      github.event_name == 'push'  ||
-      (github.event_name == 'pull_request' && github.head_ref == 'uat')
+    if: github.head_ref == 'uat' || github.event_name == 'push'
+    # if: |
+    #   github.event_name == 'push'  ||
+    #   (github.event_name == 'pull_request' && github.head_ref == 'uat')
     # if: github.event_name == 'pull_request'
     needs: [Build_dev]
     runs-on: ubuntu-latest
@@ -90,9 +91,10 @@ jobs:
 
   Build_Production:
     name: Build Production
-    if: |
-      github.event_name == 'push'  ||
-      (github.event_name == 'pull_request' && github.head_ref == 'master')
+    if: github.head_ref == 'master' || github.event_name == 'push'
+    # if: |
+    #   github.event_name == 'push'  ||
+    #   (github.event_name == 'pull_request' && github.head_ref == 'master')
     needs: [Build_dev]
     runs-on: ubuntu-latest
     environment: 
