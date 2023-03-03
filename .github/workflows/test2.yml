@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "origin/dev" ]
   pull_request:
-    branches: [ "uat", "main" ]
+    branches: ["uat"]
   workflow_dispatch:
 
 jobs:
