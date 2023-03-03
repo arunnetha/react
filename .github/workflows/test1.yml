@@ -26,13 +26,13 @@ jobs:
       - run: ls
   Build_uat:
     name: Build uat
-    if: github.ref == 'refs/heads/qa' && github.event_name == 'pull_request'
+    if: github.ref == 'refs/heads/origin/qa' && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x]
     environment: 
-      name: uat
+      name: qa
     steps:
       - name: dev build
         uses: actions/checkout@v2
