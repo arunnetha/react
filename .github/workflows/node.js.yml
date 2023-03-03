@@ -38,9 +38,10 @@ jobs:
           cache: 'npm'
       - name: Install dependencies, build and test
         run: |
-            npm install
-            npm run build
-            npm test
+            # npm install
+            # npm run build
+            # npm test
+            echo ${{ env.TEST1 }}
       
       # Share artifact inside workflow
       - name: Share artifact inside workflow
@@ -71,14 +72,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      # - name: Install dependencies
-      #   run: npm install
+      - name: Install dependencies
+        run: npm install
       # - run: npm ci
       - name: build
-        run: |
-          # npm run build
-          echo ${{ env.TEST1 }}
-      # - run: npm test
+        run: npm run build
+      - run: npm test
       
       # Share artifact inside workflow
       - name: Share artifact inside workflow
