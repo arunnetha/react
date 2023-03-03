@@ -22,7 +22,7 @@ jobs:
         node-version: [12.x]
     env:
       branchname: refs/heads/origin/dev
-      TEST1: env.TEST1
+      # TEST1: env.TEST1
     environment: 
       name: Development
     steps:
@@ -37,12 +37,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - name: Install dependencies, build and test
-        run: |
-            # npm install
-            # npm run build
-            # npm test
-            echo $TEST1
+      # - name: Install dependencies, build and test
+      #   run: |
+      #       # npm install
+      #       # npm run build
+      #       # npm test
+      - name: print name
+        run: echo $TEST1
       
       # Share artifact inside workflow
       - name: Share artifact inside workflow
