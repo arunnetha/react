@@ -48,3 +48,41 @@ jobs:
           name: react-github-actions-build
           path: build
 
+  Build_stage:
+    name: Build Development
+    if: github.event_name == 'push' || github.head_ref == 'uat'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    env:
+      branchname: refs/heads/origin/uat
+      # TEST1: env.TEST1
+    environment: 
+      name: Development
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+        # with:
+        #   name: arunnetha/react    #https://github.com/arunnetha/react.git
+        #   ref: ${{ env.branchname }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        # uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      # - name: Install dependencies, build and test
+      #   run: |
+      #       # npm install
+      #       # npm run build
+      #       # npm test
+      - name: print name
+        run: echo hello $TEST1
+      
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-github-actions-build
+          path: build
