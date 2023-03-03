@@ -1,43 +1,43 @@
-name: Deploy to Environment
+# name: Deploy to Environment
 
-on:
-  push:
-    branches: [ "main", "uat", "origin/dev" ]
+# on:
+#   push:
+#     branches: [ "main", "uat", "origin/dev" ]
 
-jobs:
-  deploy:
-    strategy:
-      matrix:
-        environment: [production, dev]
-        branch: [main, dev, feature/*]
+# jobs:
+#   deploy:
+#     strategy:
+#       matrix:
+#         environment: [production, dev]
+#         branch: [main, dev, feature/*]
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '12.x'
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '12.x'
 
-      - name: Install dependencies
-        run: npm install
+#       - name: Install dependencies
+#         run: npm install
 
-      - name: Build the app
-        run: npm run build
+#       - name: Build the app
+#         run: npm run build
 
-      - name: Deploy to environment
-        env:
-          ENVIRONMENT: ${{ matrix.environment }}
-        run: |
-          if [ "${{ matrix.branch }}" = "main" ]; then
-            # deploy to production environment
-            # replace this with your deployment command
-            echo "Deploying to production environment..."
-          else
-            # deploy to non-production environment
-            # replace this with your deployment command
-            echo "Deploying to ${ENVIRONMENT} environment..."
-          fi
+#       - name: Deploy to environment
+#         env:
+#           ENVIRONMENT: ${{ matrix.environment }}
+#         run: |
+#           if [ "${{ matrix.branch }}" = "main" ]; then
+#             # deploy to production environment
+#             # replace this with your deployment command
+#             echo "Deploying to production environment..."
+#           else
+#             # deploy to non-production environment
+#             # replace this with your deployment command
+#             echo "Deploying to ${ENVIRONMENT} environment..."
+#           fi
