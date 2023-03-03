@@ -13,7 +13,7 @@ on:
 jobs:
   Build_dev:
     name: Build Development
-    if: github.head_ref == 'development'
+    if: github_ref == 'development'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,7 +26,7 @@ jobs:
       - run: ls
   Build_uat:
     name: Build uat
-    if: github.head_ref == 'qa'
+    if: github_ref == 'qa'
     runs-on: ubuntu-latest
     strategy:
       matrix:
