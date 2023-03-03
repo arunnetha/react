@@ -43,7 +43,7 @@ jobs:
       #       # npm run build
       #       # npm test
       - name: print name
-        run: echo $TEST1
+        run: echo hello $TEST1
       
       # Share artifact inside workflow
       - name: Share artifact inside workflow
