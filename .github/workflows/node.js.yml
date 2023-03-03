@@ -14,7 +14,7 @@ jobs:
   Build_dev:
     name: Build Development
     if: |
-      github.event_name == 'pull_request' && github.head_ref == 'origin/dev'
+      github.head_ref == 'origin/dev'
       # github.event_name == 'push'  ||
       # (github.event_name == 'pull_request' && github.head_ref == 'origin/dev')
     runs-on: ubuntu-latest
