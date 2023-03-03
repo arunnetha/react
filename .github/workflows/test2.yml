@@ -25,14 +25,14 @@ jobs:
         uses: actions/checkout@v2
       - run: ls
   Build_uat:
-    name: Build Development
+    name: Build uat
     if: github.event_name == 'pull_request' || github.head_ref == 'uat'
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x]
     environment: 
-      name: Development
+      name: uat
     steps:
       - name: dev build
         uses: actions/checkout@v2
