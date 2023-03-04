@@ -6,9 +6,6 @@ on:
       - "development"
   workflow_dispatch:
 
-env:
-  TEST: ${{secret.Test}} 
-
 jobs:
   dev:
     runs-on: ubuntu-latest
@@ -25,4 +22,4 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "I am running $TEST"
+          echo "I am running ${{secret.TEST}}"
