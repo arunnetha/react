@@ -1,77 +1,119 @@
-name: Build
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
 
 on:
   push:
-    branches:
-      - development
+    branches: [ "non-prod", "qa", "development" ]
   pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
-      - qa
-      - non-prod
-      - development
+    branches: [ "non-prod", "qa", "dev"]
   workflow_dispatch:
 
 jobs:
-  build:
+  Build_dev:
+    name: Build Development
+    if: |
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.head_ref == 'development')
     runs-on: ubuntu-latest
-    # if: (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref == 'development')
-    # if: github.event_name == 'push' || github.head_ref == 'development'
     strategy:
       matrix:
         node-version: [12.x]
+    environment: 
+      name: Development
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          name: arunnetha/react    #https://github.com/arunnetha/react.git
+          ref: refs/heads/development
       - name: Use Node.js ${{ matrix.node-version }}
         # uses: actions/setup-node@v3
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: |
-          echo "dev"
+      - name: Install dependencies, build and test
+        run: |
+            npm install
+            npm run build
+            npm test
+      
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-github-actions-build
+          path: build
 
-  buid_qa:
+  Feature_build:
+    name: Build feature
+    if: |
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.head_ref == 'qa')
+    # if: github.event_name == 'pull_request'
+    needs: [Build_dev]
     runs-on: ubuntu-latest
-    needs: build
-    # if: github.ref == 'refs/heads/development'
-    if: github.ref == 'refs/heads/qa'
-    strategy:
-      matrix:
-        node-version: [12.x]
+    environment: 
+      name: qa
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          name: arunnetha/react    #https://github.com/arunnetha/react.git
+          ref: refs/heads/qa
       - name: Use Node.js ${{ matrix.node-version }}
         # uses: actions/setup-node@v3
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: |
-          echo "qa"
+      - name: Install dependencies
+        run: npm install
+      # - run: npm ci
+      - name: build
+        run: npm run build
+      - run: npm test
+      
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-github-actions-build
+          path: build
 
-  build_nonprod:
+  Build_Production:
+    name: Build Production
+    if: |
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.head_ref == 'non-prod')
+    needs: [Build_dev]
     runs-on: ubuntu-latest
-    needs: buid_qa
-    # if: github.ref == 'refs/heads/development'
-    if: github.ref == 'refs/heads/non-prod'
-    strategy:
-      matrix:
-        node-version: [12.x]
+    environment: 
+      name: production
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          name: arunnetha/react    #https://github.com/arunnetha/react.git
+          ref: refs/heads/non-prod
       - name: Use Node.js ${{ matrix.node-version }}
         # uses: actions/setup-node@v3
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: |
-          echo "qa"
+      - name: Install dependencies
+        run: npm install
+      # - run: npm ci
+      - name: build
+        run: npm run build
+      - run: npm test
+      
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-github-actions-build
+          path: build
