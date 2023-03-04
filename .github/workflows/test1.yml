@@ -5,15 +5,15 @@ on:
     branches:
       - "development"
   workflow_dispatch:
-    
+
+env:
+  TEST: ${{secret.Test}} 
 
 jobs:
   dev:
     runs-on: ubuntu-latest
     environment: 
       name: Development
-    env:
-      TEST: ${{secret.Test}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
