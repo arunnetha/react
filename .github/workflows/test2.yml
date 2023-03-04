@@ -25,7 +25,6 @@ jobs:
           ls
 
   deploy_dev:
-    needs: build
     runs-on: ubuntu-latest
     # if: github.ref == 'refs/heads/development'
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
