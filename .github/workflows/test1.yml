@@ -14,7 +14,10 @@ on:
 jobs:
   Build_dev:
     name: Build Development
-    if: github.ref == 'refs/heads/development' 
+    # if: github.ref == 'refs/heads/development' 
+    if: |
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.ref == 'refs/heads/development' )
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,9 +31,10 @@ jobs:
       - run: echo $TEST
   Build_qa:
     name: Build qa
-    if: github.ref == 'refs/heads/qa' 
-    # if: github.ref == 'refs/heads/origin/qa'
-    # if: github.event_name == 'pull_request' || github.ref == 'refs/heads/origin/qa'
+    # if: github.ref == 'refs/heads/qa' 
+    if: |
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.ref == 'refs/heads/qa' )
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -43,8 +47,10 @@ jobs:
       - run: ls
   Build_nonprod:
     name: Build non-prod
-    if: github.ref == 'refs/heads/non-prod'
-    # if: github.event_name == 'pull_request'
+    # if: github.ref == 'refs/heads/non-prod'
+    if:
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.ref == 'refs/heads/non-prod')
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -57,8 +63,10 @@ jobs:
       - run: ls 
   Build_main:
     name: Build main
-    if: github.ref == 'refs/heads/main'
-    # if: github.event_name == 'pull_request' || github.ref == 'refs/heads/origin/main'
+    # if: github.ref == 'refs/heads/main'
+    if:
+      github.event_name == 'push'  ||
+      (github.event_name == 'pull_request' && github.ref == github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     strategy:
       matrix:
