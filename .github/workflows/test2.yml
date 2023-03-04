@@ -29,6 +29,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - run: |
+          echo "dev"
 
   deploy_dev:
     runs-on: ubuntu-latest
@@ -47,3 +49,25 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - run: |
+          echo "qa"
+
+  deploy_nonprod:
+    runs-on: ubuntu-latest
+    # if: github.ref == 'refs/heads/development'
+    if: (github.event_name == 'pull_request' && github.event.action == 'closed') || github.ref == 'refs/heads/non-prod'
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        # uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: |
+          echo "qa"
