@@ -15,7 +15,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref == 'development')
+    # if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref == 'development')
+    if: github.event_name == 'push' || github.head_ref == 'development'
     strategy:
       matrix:
         node-version: [12.x]
@@ -32,10 +33,10 @@ jobs:
       - run: |
           echo "dev"
 
-  deploy_dev:
+  deploy_qa:
     runs-on: ubuntu-latest
     # if: github.ref == 'refs/heads/development'
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    if: (github.event_name == 'pull_request' && github.event.action == 'closed') || github.ref == 'refs/heads/qa'
     strategy:
       matrix:
         node-version: [12.x]
