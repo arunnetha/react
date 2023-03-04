@@ -3,7 +3,7 @@ name: Deploy to Dev, QA, and Prod Environments
 on:
   push:
     branches:
-      - main
+      - development
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -30,33 +30,10 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     steps:
       - name: Checkout Code
+        id: closepullrequest
         uses: actions/checkout@v2
 
       - name: Build and Test Code
         run: |
           # Insert commands to build and test code here
           ls
-
-  # deploy_qa:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/qa'
-
-  #   steps:
-  #     - name: Deploy to QA
-  #       uses: your-deploy-action-here
-  #       with:
-  #         environment: qa
-  #     - run: echo ${{secrets.TEST}}
-
-  # deploy_nonprod:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/non-prod'
-
-  #   steps:
-  #     - name: Deploy to Prod
-  #       uses: your-deploy-action-here
-  #       with:
-  #         environment: non-prod
-  #     - run: echo ${{secrets.TEST}}
