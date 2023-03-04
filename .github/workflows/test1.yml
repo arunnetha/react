@@ -21,11 +21,13 @@ jobs:
         node-version: [12.x]
     environment: 
       name: Development
+    env:
+      TEST = ${{env.TEST1}}
     steps:
       - name: dev build
         uses: actions/checkout@v2
       - run: ls
-      - run: echo ${{env.TEST1}}
+      - run: echo $TEST
   Build_uat:
     name: Build uat
     if: github.ref == 'refs/heads/origin/qa' && github.event_name == 'pull_request'
