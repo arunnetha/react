@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
   dev:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.head_ref == 'development' && 'development'
+    if: github.head_ref == 'development'
     needs: build
     environment: 
       name: Development
