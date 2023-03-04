@@ -18,7 +18,7 @@ jobs:
         node-version: [12.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     env:
-      branchname: refs/heads/$release_version
+      branchname: refs/heads/${{ inputs.release_version }}
     steps:
     - name: Clone repository
       uses: actions/checkout@v3
