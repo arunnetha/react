@@ -1,0 +1,45 @@
+name: React Build
+
+on:
+  pull_request:
+    branches:
+      - development
+      - qa
+      - non-prod
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    env:
+      DEV_VAR: "dev-value"
+      QA_VAR: "qa-value"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for development
+        if: ${{ github.ref == 'refs/heads/development' }}
+        env:
+          APP_ENV: "development"
+          APP_VAR: ${{ env.DEV_VAR }}
+        run: npm run build
+
+      - name: Build for QA
+        if: ${{ github.ref == 'refs/heads/qa' }}
+        env:
+          APP_ENV: "qa"
+          APP_VAR: ${{ env.QA_VAR }}
+        run: npm run build
