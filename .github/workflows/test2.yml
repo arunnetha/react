@@ -1,22 +1,23 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - development
+  # push:
+  #   branches:
+  #     - development
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main
       - qa
       - non-prod
+      - development
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref == 'development')
-    if: github.event_name == 'push' || github.head_ref == 'development'
+    if: (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref == 'development')
+    # if: github.event_name == 'push' || github.head_ref == 'development'
     strategy:
       matrix:
         node-version: [12.x]
