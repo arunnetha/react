@@ -30,7 +30,7 @@ jobs:
   Build_qa:
     name: Build qa
     # if: github.ref == 'refs/heads/qa' 
-    if: github.head_ref == 'qa' && github.event.pull_request.merged
+    if: github.ref == 'refs/heads/qa' && github.event.pull_request.merged
     runs-on: ubuntu-latest
     strategy:
       matrix:
