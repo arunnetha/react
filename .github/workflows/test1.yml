@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build React App
 
 on:
   push:
@@ -8,15 +8,16 @@ on:
     branches:
       - qa
       - non-prod
-      - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    env:
-      BUILD_ENV: ${{ github.event_name == 'pull_request' && github.base_ref == 'qa' && 'qa' || github.base_ref == 'non-prod' && 'non-prod' || github.base_ref == 'main' && 'main' || 'development' }}
-      BUILD_TAG: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - run: echo "env.TEST1"
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build React app
+      run: npm run build
