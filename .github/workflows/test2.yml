@@ -4,11 +4,17 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+      - qa
+      - non-prod
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -21,8 +27,8 @@ jobs:
   deploy_dev:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/development'
-
+    # if: github.ref == 'refs/heads/development'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
     steps:
       - name: Deploy to Dev
         uses: your-deploy-action-here
@@ -30,26 +36,26 @@ jobs:
           environment: Development
       - run: echo ${{secrets.TEST}}
 
-  deploy_qa:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/qa'
+  # deploy_qa:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/qa'
 
-    steps:
-      - name: Deploy to QA
-        uses: your-deploy-action-here
-        with:
-          environment: qa
-      - run: echo ${{secrets.TEST}}
+  #   steps:
+  #     - name: Deploy to QA
+  #       uses: your-deploy-action-here
+  #       with:
+  #         environment: qa
+  #     - run: echo ${{secrets.TEST}}
 
-  deploy_nonprod:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/non-prod'
+  # deploy_nonprod:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/non-prod'
 
-    steps:
-      - name: Deploy to Prod
-        uses: your-deploy-action-here
-        with:
-          environment: non-prod
-      - run: echo ${{secrets.TEST}}
+  #   steps:
+  #     - name: Deploy to Prod
+  #       uses: your-deploy-action-here
+  #       with:
+  #         environment: non-prod
+  #     - run: echo ${{secrets.TEST}}
