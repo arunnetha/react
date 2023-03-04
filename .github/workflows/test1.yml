@@ -28,7 +28,8 @@ jobs:
       - run: echo $TEST
   Build_uat:
     name: Build uat
-    if: github.ref == 'refs/heads/origin/qa'
+    # if: github.ref == 'refs/heads/origin/qa'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     strategy:
       matrix:
