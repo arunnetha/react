@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.head_ref == 'main'
+    if: github.ref == 'refs/heads/main'
     strategy:
       matrix:
         node-version: [12.x]
