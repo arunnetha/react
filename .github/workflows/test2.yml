@@ -1,4 +1,4 @@
-name: Deploy to Dev, QA, and Prod Environments
+name: Build
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref == 'development')
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
   deploy_dev:
     runs-on: ubuntu-latest
     # if: github.ref == 'refs/heads/development'
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.head_ref == 'qa'
     steps:
       - name: Checkout Code
         id: closepullrequest
