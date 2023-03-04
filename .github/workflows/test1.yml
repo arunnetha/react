@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "development" ]
+    branches: ["development","qa"]
   pull_request:
     branches: ["qa"]
     types: [opened]
