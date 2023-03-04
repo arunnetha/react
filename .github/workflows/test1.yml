@@ -7,8 +7,7 @@ on:
   push:
     branches: ["development"]
   pull_request:
-    branches: ["qa"]
-    types: [opened]
+    branches: ["qa","non-prod","main"]
   workflow_dispatch:
   
 jobs:
@@ -40,6 +39,20 @@ jobs:
       - name: dev build
         uses: actions/checkout@v2
       - run: ls
+  Build_nonprod:
+    name: Build non-prod
+    # if: github.ref == 'refs/heads/origin/qa'
+    if: github.ref == 'refs/heads/origin/non-prod'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    environment: 
+      name: non-prod
+    steps:
+      - name: dev build
+        uses: actions/checkout@v2
+      - run: ls 
   Build_main:
     name: Build main
     # if: github.ref == 'refs/heads/origin/qa'
