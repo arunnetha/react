@@ -8,6 +8,7 @@ on:
     branches: ["development"]
   pull_request:
     branches: ["qa","non-prod","main"]
+    types: ["closed"]
   workflow_dispatch:
   
 jobs:
