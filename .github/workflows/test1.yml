@@ -1,23 +1,38 @@
-name: Build React App
+name: Build and Deploy React App
 
 on:
-  push:
-    branches:
-      - development
-  pull_request:
-    branches:
-      - qa
-      - non-prod
+  workflow_dispatch:
+    
 
 jobs:
-  build:
+  dev:
     runs-on: ubuntu-latest
+    environment: development
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
 
-    - name: Build React app
-      run: npm run build
+      - name: Install dependencies
+        run: |
+          echo "I am running dev"
+  QA:
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+
+      - name: Install dependencies
+        run: echo "i am ruiing qa"
