@@ -1,4 +1,4 @@
-name: qa build
+name: non-prod build
 
 on:
   workflow_dispatch:
