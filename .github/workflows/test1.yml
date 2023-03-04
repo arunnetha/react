@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: ["qa","non-prod","main"]
     types: ["closed"]
-  workflow_dispatch:
+  # workflow_dispatch:
   
 jobs:
   Build_dev:
