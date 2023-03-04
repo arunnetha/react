@@ -1,8 +1,6 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [ "development" ]
   pull_request:
     branches: [ "qa" ]
 
@@ -19,4 +17,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: echo "Hello"
+    - run: echo $git.ref
     #
