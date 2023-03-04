@@ -13,7 +13,7 @@ jobs:
     environment: 
       name: Development
     env:
-      TEST: secret.Test
+      TEST: ${{secret.Test}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
