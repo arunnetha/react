@@ -14,7 +14,7 @@ on:
 jobs:
   Build_dev:
     name: Build Development
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/origin/development'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,7 +29,7 @@ jobs:
   Build_uat:
     name: Build uat
     # if: github.ref == 'refs/heads/origin/qa'
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.ref == 'refs/heads/origin/qa'
     runs-on: ubuntu-latest
     strategy:
       matrix:
