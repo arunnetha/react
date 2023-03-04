@@ -22,7 +22,7 @@ jobs:
     environment: 
       name: Development
     env:
-      TEST = ${{env.TEST1}}
+      TEST: ${{env.TEST1}}
     steps:
       - name: dev build
         uses: actions/checkout@v2
