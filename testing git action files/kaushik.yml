@@ -1,0 +1,145 @@
+name: Deploy to Auth0 account
+on:
+  push:
+    branches: [ "feature/MS-4481" ]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [ "dev" ]
+  workflow_dispatch:
+
+jobs:
+  deploy_dev:
+    name: Dev Deployment
+    #if: github.head_ref == 'dev' && github.event_name == 'pull_request'
+    # if: github.head_ref == 'feature/MS-4481' || github.event_name == 'push'
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref == 'feature/MS-4481')
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    env:
+      branchname: refs/heads/dev
+    environment:
+      name: development
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          name: marketspark/unilogin
+          ref: ${{ env.branchname }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        # uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - name: Download .env
+        run: |
+          aws s3 cp s3://marketspark-env/cassian/dev . --recursive
+      - name: Install dependencies and build
+        run: |
+            yarn install
+            yarn build
+            yarn export
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'Artifact-Unilogin'
+          path: ./pages
+      # - name: Deploy
+      #   run: |
+      #     aws s3 rm s3://dev-cmdc-cdn.cellcs.com/ --recursive
+      #     aws s3 cp pages s3://dev-cmdc-cdn.cellcs.com/ --recursive
+  deploy_stage:
+    name: Stage Deployment
+    if: github.head_ref == 'release/*' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    env:
+      branchname: refs/heads/release*
+    environment:
+      name: stage
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          name: marketspark/unilogin
+          ref: ${{ env.branchname }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        # uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies and build
+        run: |
+            yarn install
+            yarn export
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'Artifact-Unilogin'
+          path: ./pages
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      # - name: Deploy
+      #   run: |
+      #     aws s3 rm s3://stage-cmdc-cdn.cellcs.com/ --recursive
+      #     aws s3 cp pages s3://stage-cmdc-cdn.cellcs.com/ --recursive
+  deploy_prod:
+    name: Prod Deployment
+    if: github.head_ref == 'master' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    env:
+      branchname: refs/heads/master
+    environment:
+      name: stage
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          name: marketspark/unilogin
+          ref: ${{ env.branchname }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        # uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies and build
+        run: |
+            yarn install
+            yarn export
+      # Share artifact inside workflow
+      - name: Share artifact inside workflow
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'Artifact-Unilogin'
+          path: ./pages
+      - name: Set AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      # - name: Deploy
+      #   run: |
+      #     aws s3 rm s3://cmdc-cdn.cellcs.com/ --recursive
+      #     aws s3 cp pages s3://cmdc-cdn.cellcs.com --recursive
