@@ -1,25 +1,61 @@
-name: Node.js CI
+name: Deploy to Dev, QA, and Prod Environments
 
 on:
   push:
-    branches: ["development"]
+    branches:
+      - main
   pull_request:
-    branches: [ "qa" ]
-
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+      - qa
+      - non-prod
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/qa' && github.event_name == 'push' }}
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     steps:
-    - uses: actions/checkout@v3
-    - run: echo "Hello"
-    - run: echo $git.ref
-    #
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Build and Test Code
+        run: |
+          # Insert commands to build and test code here
+          ls
+
+  deploy_dev:
+    needs: build
+    runs-on: ubuntu-latest
+    # if: github.ref == 'refs/heads/development'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Deploy to Dev
+        uses: your-deploy-action-here
+        with:
+          environment: Development
+      - run: echo ${{secrets.TEST}}
+
+  # deploy_qa:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/qa'
+
+  #   steps:
+  #     - name: Deploy to QA
+  #       uses: your-deploy-action-here
+  #       with:
+  #         environment: qa
+  #     - run: echo ${{secrets.TEST}}
+
+  # deploy_nonprod:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/non-prod'
+
+  #   steps:
+  #     - name: Deploy to Prod
+  #       uses: your-deploy-action-here
+  #       with:
+  #         environment: non-prod
+  #     - run: echo ${{secrets.TEST}}
