@@ -9,7 +9,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    if: github.head_ref == 'qa'
+    # if: github.head_ref == 'qa'
     strategy:
       matrix:
         node-version: [12.x]
