@@ -1,39 +1,25 @@
-name: React Build
+name: Node.js CI
 
 on:
+  push:
+    branches: [ "development" ]
   pull_request:
-    branches:
-      - development
-      - qa
-      - non-prod
+    branches: [ "qa" ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [12.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build for development
-        if: ${{ github.ref == 'refs/heads/development' }}
-        env:
-          APP_ENV: "development"
-        run: npm run build
-
-      - name: Build for QA
-        if: ${{ github.ref == 'refs/heads/qa' }}
-        env:
-          APP_ENV: "qa"
-        run: npm run build
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
