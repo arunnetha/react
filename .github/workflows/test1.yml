@@ -15,9 +15,7 @@ jobs:
   Build_dev:
     name: Build Development
     # if: github.ref == 'refs/heads/development' 
-    if: |
-      github.event_name == 'push'  ||
-      (github.event_name == 'pull_request' && github.ref == 'refs/heads/development' )
+    if: github.head_ref == 'development' && github.event.push.commits
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,9 +30,7 @@ jobs:
   Build_qa:
     name: Build qa
     # if: github.ref == 'refs/heads/qa' 
-    if: |
-      github.event_name == 'push'  ||
-      (github.event_name == 'pull_request' && github.ref == 'refs/heads/qa' )
+    if: github.head_ref == 'qa' && github.event.pull_request.merged
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -48,9 +44,7 @@ jobs:
   Build_nonprod:
     name: Build non-prod
     # if: github.ref == 'refs/heads/non-prod'
-    if:
-      github.event_name == 'push'  ||
-      (github.event_name == 'pull_request' && github.ref == 'refs/heads/non-prod')
+    if: github.head_ref == 'non-prod' && github.event.pull_request.merged
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -64,9 +58,7 @@ jobs:
   Build_main:
     name: Build main
     # if: github.ref == 'refs/heads/main'
-    if:
-      github.event_name == 'push'  ||
-      (github.event_name == 'pull_request' && github.ref == github.ref == 'refs/heads/main')
+    if: github.head_ref == 'main' && github.event.pull_request.merged
     runs-on: ubuntu-latest
     strategy:
       matrix:
