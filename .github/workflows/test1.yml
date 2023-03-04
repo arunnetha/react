@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: Development
-
+    env:
+      TEST: secret.Test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,4 +25,4 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "I am running ${{secret.Test1}}"
+          echo "I am running $TEST"
