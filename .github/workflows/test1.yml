@@ -10,7 +10,8 @@ on:
 jobs:
   dev:
     runs-on: ubuntu-latest
-    environment: Development
+    environment: 
+      name: Development
 
     steps:
       - name: Checkout code
@@ -23,4 +24,4 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "I am running ${{secret.Test}}"
+          echo "I am running ${{secret.Test1}}"
