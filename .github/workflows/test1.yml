@@ -5,16 +5,15 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["development","qa"]
+    branches: ["development"]
   pull_request:
-    branches: ["qa"]
-    types: [opened]
+    branches: ["qa","non-prod","main"]
   workflow_dispatch:
   
 jobs:
   Build_dev:
     name: Build Development
-    if: github.event_name == 'push'
+    # if: github.event_name == 'push' || github.ref == 'refs/heads/origin/development'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,7 +28,7 @@ jobs:
   Build_uat:
     name: Build uat
     # if: github.ref == 'refs/heads/origin/qa'
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/origin/qa'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -40,3 +39,31 @@ jobs:
       - name: dev build
         uses: actions/checkout@v2
       - run: ls
+  Build_nonprod:
+    name: Build non-prod
+    # if: github.ref == 'refs/heads/origin/qa'
+    if: github.ref == 'refs/heads/origin/non-prod'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    environment: 
+      name: non-prod
+    steps:
+      - name: dev build
+        uses: actions/checkout@v2
+      - run: ls 
+  Build_main:
+    name: Build main
+    # if: github.ref == 'refs/heads/origin/qa'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/origin/main'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    environment: 
+      name: qa
+    steps:
+      - name: dev build
+        uses: actions/checkout@v2
+      - run: ls 
