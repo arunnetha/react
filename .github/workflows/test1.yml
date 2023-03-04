@@ -15,7 +15,7 @@ jobs:
   Build_dev:
     name: Build Development
     # if: github.ref == 'refs/heads/development' 
-    if: github.head_ref == 'development' && github.event.push.commits
+    if: github.head_ref == 'development'
     runs-on: ubuntu-latest
     strategy:
       matrix:
