@@ -1,71 +1,23 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Build React App
 
 on:
   push:
-    branches: ["development"]
+    branches:
+      - development
   pull_request:
-    branches: ["qa","non-prod","main"]
-    types: ["closed"]
-  workflow_dispatch:
-  
+    branches:
+      - qa
+      - non-prod
+
 jobs:
-  Build_dev:
-    name: Build Development
-    # if: github.ref == 'refs/heads/development' 
-    # if: github.head_ref == 'development'
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    environment: 
-      name: Development
     steps:
-      - name: dev build
-        uses: actions/checkout@v2
-      - run: ls
-      - run: echo $TEST
-  Build_qa:
-    name: Build qa
-    # if: github.ref == 'refs/heads/qa' 
-    if: github.ref == 'refs/heads/qa' && github.event.pull_request.merged
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    environment: 
-      name: qa
-    steps:
-      - name: dev build
-        uses: actions/checkout@v2
-      - run: ls
-  Build_nonprod:
-    name: Build non-prod
-    # if: github.ref == 'refs/heads/non-prod'
-    if: github.head_ref == 'non-prod' && github.event.pull_request.merged
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    environment: 
-      name: non-prod
-    steps:
-      - name: dev build
-        uses: actions/checkout@v2
-      - run: ls 
-  Build_main:
-    name: Build main
-    # if: github.ref == 'refs/heads/main'
-    if: github.head_ref == 'main' && github.event.pull_request.merged
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    environment: 
-      name: qa
-    steps:
-      - name: dev build
-        uses: actions/checkout@v2
-      - run: ls 
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build React app
+      run: npm run build
