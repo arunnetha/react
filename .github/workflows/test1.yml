@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: ["development","qa"]
+    branches: ["development"]
   pull_request:
     branches: ["qa"]
     types: [opened]
@@ -40,3 +40,17 @@ jobs:
       - name: dev build
         uses: actions/checkout@v2
       - run: ls
+  Build_main:
+    name: Build main
+    # if: github.ref == 'refs/heads/origin/qa'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/origin/main'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    environment: 
+      name: qa
+    steps:
+      - name: dev build
+        uses: actions/checkout@v2
+      - run: ls 
