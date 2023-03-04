@@ -14,7 +14,7 @@ on:
 jobs:
   Build_dev:
     name: Build Development
-    if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -25,6 +25,7 @@ jobs:
       - name: dev build
         uses: actions/checkout@v2
       - run: ls
+      - run: echo ${{env.TEST1}}
   Build_uat:
     name: Build uat
     if: github.ref == 'refs/heads/origin/qa' && github.event_name == 'pull_request'
