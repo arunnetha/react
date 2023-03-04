@@ -27,8 +27,8 @@ jobs:
       - run: echo $TEST
   Build_qa:
     name: Build qa
-    if: github.ref == 'refs/heads/origin/qa'
-    # if: github.event_name == 'pull_request' || github.ref == 'refs/heads/origin/qa'
+    # if: github.ref == 'refs/heads/origin/qa'
+    if: github.event_name == 'pull_request' #|| github.ref == 'refs/heads/origin/qa'
     runs-on: ubuntu-latest
     strategy:
       matrix:
