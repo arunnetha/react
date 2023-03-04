@@ -1,13 +1,13 @@
 name: non-prod build
 
 on:
+
   workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    if: github.head_ref == 'non-prod'
     strategy:
       matrix:
         node-version: [12.x]
