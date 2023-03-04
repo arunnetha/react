@@ -15,25 +15,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed' && github.head_ref == 'development')
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Build and Test Code
-        run: |
-          # Insert commands to build and test code here
-          ls
+      - name: Use Node.js ${{ matrix.node-version }}
+        # uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
   deploy_dev:
     runs-on: ubuntu-latest
     # if: github.ref == 'refs/heads/development'
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
       - name: Checkout Code
-        id: closepullrequest
         uses: actions/checkout@v2
 
-      - name: Build and Test Code
-        run: |
-          # Insert commands to build and test code here
-          ls
+      - name: Use Node.js ${{ matrix.node-version }}
+        # uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
