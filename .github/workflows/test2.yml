@@ -27,7 +27,7 @@ jobs:
   deploy_dev:
     runs-on: ubuntu-latest
     # if: github.ref == 'refs/heads/development'
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.head_ref == 'qa'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
     steps:
       - name: Checkout Code
         id: closepullrequest
