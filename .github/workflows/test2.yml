@@ -30,11 +30,13 @@ jobs:
     # if: github.ref == 'refs/heads/development'
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     steps:
-      - name: Deploy to Dev
-        uses: your-deploy-action-here
-        with:
-          environment: Development
-      - run: echo ${{secrets.TEST}}
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Build and Test Code
+        run: |
+          # Insert commands to build and test code here
+          ls
 
   # deploy_qa:
   #   needs: build
