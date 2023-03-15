@@ -10,29 +10,29 @@ pipeline {
         // }
 
         stage('devbuild') {
-            // when {
-            //     beforeAgent true
-            //     branch 'development'
-            //     expression {
-            //         return env.CHANGE_ID != null
-            //     }
-            // }
+            when {
+                beforeAgent true
+                branch 'development'
+                expression {
+                    return env.CHANGE_ID != null
+                }
+            }
             steps {
                 sh 'echo devbuild'
             }
         }
-        // stage('qabuild') {
-        //     when {
-        //         beforeAgent true
-        //         branch 'qa'
-        //         expression {
-        //             return env.CHANGE_ID != null
-        //         }
-        //     }
-        //     steps {
-        //         sh 'echo qabuild'
-        //     }
-        // }
+        stage('qabuild') {
+            when {
+                beforeAgent true
+                branch 'qa'
+                expression {
+                    return env.CHANGE_ID != null
+                }
+            }
+            steps {
+                sh 'echo qabuild'
+            }
+        }
         
     }
     
