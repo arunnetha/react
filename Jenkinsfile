@@ -18,7 +18,9 @@ pipeline {
                 }
             }
             steps {
-                sh 'echo devbuild'
+                sh 'ls'
+                sh 'pwd'
+                
             }
         }
         stage('qabuild') {
