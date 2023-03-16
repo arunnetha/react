@@ -11,8 +11,8 @@ on:
     types:
       - "closed"
 env:
-  TESTSECURE: ${{ secrets.TEST }}
-  env_vars: ${{ vars.ETEST }}
+  SCR: ssssss
+  VAR: scscs
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -35,8 +35,8 @@ jobs:
         run: echo ${{ steps.extract_branch.outputs.branch }}
       - name: variables check
         run: | 
-          echo $env_vars
-          echo ${{env.env_vars}}
+          echo $SCR
+          echo ${{env.VAR}}
 
       - name: Deploy to environment
         run: |
