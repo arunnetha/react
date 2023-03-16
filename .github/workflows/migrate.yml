@@ -66,4 +66,4 @@ jobs:
           ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
           MYSECRET: ${{ secrets.MYSECRET}}
           # TESTSECURE: ${{ secrets.TEST }}
-          # env_vars: ${{ vars.ETEST }}
+          env_vars: ${{ vars.ETEST }}
