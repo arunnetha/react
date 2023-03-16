@@ -41,4 +41,5 @@ jobs:
           # Insert deployment commands here using $ENVIRONMENT variable as environment name
           echo ${{ secrets.TEST }}
           echo $TEST_env
-          echo $TEST_secret
+          echo $TEST_secret >>secret.txt
+          cat secret.txt
