@@ -10,9 +10,6 @@ on:
       - non-prod
     types:
       - "closed"
-env:
-  SCR: ssssss
-  VAR: scscs
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -34,10 +31,6 @@ jobs:
         id: extract_branch
       - name: setup env name
         run: echo ${{ steps.extract_branch.outputs.branch }}
-      - name: variables check
-        run: | 
-          echo $SCR
-          echo ${{env.VAR}}
 
       - name: Deploy to environment
         run: |
@@ -64,6 +57,5 @@ jobs:
           echo ${{ vars.development.ETEST }}
         env:
           ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
-          MYSECRET: ${{ secrets.MYSECRET}}
-          # TESTSECURE: ${{ secrets.TEST }}
+          MYSECRET: ${{ secrets.TEST}}
           env_vars: ${{ vars.ETEST }}
