@@ -38,6 +38,7 @@ jobs:
         run: | 
           echo $SCR
           echo ${{env.VAR}}
+          echo ${{github.ref_name}}
 
       - name: Deploy to environment
         run: |
