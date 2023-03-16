@@ -33,6 +33,8 @@ jobs:
         id: extract_branch
       - name: setup env name
         run: echo ${{ steps.extract_branch.outputs.branch }}
+      - name: variables check
+        run: $env_vars
 
       - name: Deploy to environment
         run: |
