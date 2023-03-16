@@ -54,6 +54,7 @@ jobs:
           else
             echo "variables not matched"
           fi
+          echo ${{ vars.ETEST }}
         env:
           ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
           TEST_SECURE: ${{ secrets.TEST }}
