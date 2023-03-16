@@ -37,7 +37,7 @@ jobs:
 
       - name: Deploy to environment
         run: |
-          if [ "$TEST_SECURE" == "development" ]
+          if [ "$TESTSECURE" == "development" ]
           then
             echo "Got secret"
           else
@@ -60,5 +60,5 @@ jobs:
           echo ${{ vars.development.ETEST }}
         env:
           ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
-          TEST_SECURE: ${{ secrets.TEST }}
+          TESTSECURE: ${{ secrets.TEST }}
           env_vars: ${{ vars.ETEST }}
