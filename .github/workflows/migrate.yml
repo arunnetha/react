@@ -37,6 +37,8 @@ jobs:
           if [ "$TEST_SECURE" == "development" ]
           then
             echo "Got secret"
+          else
+            echo "no secret"
           fi
         env:
           ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
