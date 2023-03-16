@@ -22,8 +22,9 @@ jobs:
         run: echo ${{ github.run_id }}
 
       - name: Setup AWS
+        shell: bash
         run: |
-          PACKAGE_VERSION = awk '/version/{gsub(/("|",)/,"",$2);print $2};' package.json
+          awk '/version/{gsub(/("|",)/,"",$2);print $2};' package.json >>$PACKAGE_VERSION
           echo $PACKAGE_VERSION
 
       - name: Deploy to environment
