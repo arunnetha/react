@@ -33,15 +33,11 @@ jobs:
         run: echo ${{ steps.extract_branch.outputs.branch }}
 
       - name: Deploy to environment
-        env:
-          ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
-          TEST_env: ${{ env.TEST }}
-          TEST_secret: ${{ secrets.TEST }}
         run: |
-          # Insert deployment commands here using $ENVIRONMENT variable as environment name
-          echo ${{ secrets.TEST }}
-          echo $TEST_env
-          if [ "$TEST_secret" == "development" ]
+          if [ "$TEST_SECURE" == "development" ]
           then
             echo "Got secret"
           fi
+        env:
+          ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
+          TEST_SECURE: ${{ secrets.TEST }}
