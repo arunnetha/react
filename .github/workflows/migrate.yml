@@ -74,14 +74,14 @@ jobs:
 
       - name: Deploy to environment
         run: |
-          if [ "$MYSECRET" == "development" ]
+          if [ "$MYSECRET" == "qa" ]
           then
             echo "Got secret"
           else
             echo "no secret"
           fi
           
-          if [ "$env_vars" == "development" ]
+          if [ "$env_vars" == "qa" ]
           then
             echo "variables matched"
           else
