@@ -35,7 +35,8 @@ jobs:
       - name: Deploy to environment
         env:
           ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
+          TEST_env: ${{ secrets.TEST }}
         run: |
           # Insert deployment commands here using $ENVIRONMENT variable as environment name
           echo ${{ secrets.TEST }}
-          echo "variable=${{ env.TEST }}"
+          echo "variable=$TEST_env"
