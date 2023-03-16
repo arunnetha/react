@@ -40,13 +40,6 @@ jobs:
           else
             echo "no secret"
           fi
-      
-          if [ "$ENVIRONMENT" == "development" ]
-          then
-            echo "environment matched"
-          else
-            echo "environment not matched"
-          fi
           
           if [ "$env_vars" == "development" ]
           then
@@ -54,8 +47,7 @@ jobs:
           else
             echo "variables not matched"
           fi
-          echo $env_vars
         env:
-          ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
+          # ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
           MYSECRET: ${{ secrets.TEST}}
           env_vars: ${{ vars.ETEST }}
