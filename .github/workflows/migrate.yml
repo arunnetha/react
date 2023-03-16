@@ -14,9 +14,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    env:
-      ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
-      TEST_SECURE: ${{ secrets.TEST }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
