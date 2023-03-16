@@ -32,9 +32,9 @@ jobs:
       - name: setup env name
         run: echo ${{ steps.extract_branch.outputs.branch }}
 
-      # - name: Deploy to environment
-      #   env:
-      #     ENVIRONMENT: $(echo ${GITHUB_REF#refs/heads/})
-      #   run: |
-      #     # Insert deployment commands here using $ENVIRONMENT variable as environment name
-      #     echo ${{ secrets.TEST }}
+      - name: Deploy to environment
+        env:
+          ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
+        run: |
+          # Insert deployment commands here using $ENVIRONMENT variable as environment name
+          echo ${{ secrets.TEST }}
