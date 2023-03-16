@@ -38,7 +38,8 @@ jobs:
         run: | 
           echo $SCR
           echo ${{env.VAR}}
-          echo ${github.ref_name}
+          echo "branch=$(echo ${github.ref_name}" >>$GITHUB_OUTPUT1
+          echo $GITHUB_OUTPUT1
 
       - name: Deploy to environment
         run: |
