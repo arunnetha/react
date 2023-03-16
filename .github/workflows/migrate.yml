@@ -41,5 +41,7 @@ jobs:
           # Insert deployment commands here using $ENVIRONMENT variable as environment name
           echo ${{ secrets.TEST }}
           echo $TEST_env
-          echo $TEST_secret >>secret.txt
-          cat secret.txt
+          if [ "$TEST_secret" == "development" ]
+          then
+            echo "Got secret"
+          fi
