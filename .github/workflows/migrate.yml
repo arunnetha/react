@@ -16,6 +16,7 @@ env:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    environment: ${GITHUB_REF}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
