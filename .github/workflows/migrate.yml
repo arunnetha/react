@@ -40,6 +40,13 @@ jobs:
           else
             echo "no secret"
           fi
+      
+          if [ "$ENVIRONMENT" == "development" ]
+          then
+            echo "environment matched"
+          else
+            echo "environment not matched"
+          fi
         env:
           ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
           TEST_SECURE: ${{ secrets.TEST }}
