@@ -41,17 +41,18 @@ jobs:
             echo "no secret"
           fi
       
-          if [ "$env_vars" == "development" ]
+          if [ "$ENVIRONMENT" == "development" ]
           then
             echo "environment matched"
           else
             echo "environment not matched"
           fi
+          
           if [ "$env_vars" == "development" ]
           then
-            echo "environment matched"
+            echo "variables matched"
           else
-            echo "environment not matched"
+            echo "variables not matched"
           fi
         env:
           ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
