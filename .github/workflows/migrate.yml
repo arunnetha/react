@@ -14,16 +14,19 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
+      TEST_SECURE: ${{ secrets.TEST }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Output Run ID
-        run: echo ${{ github.run_id }}
-      - name: Output Run Number
-        run: echo ${{ github.run_number }}
-      - name: Output Run Attempt
-        run: echo ${{ github.run_attempt }}
+      # - name: Output Run ID
+      #   run: echo ${{ github.run_id }}
+      # - name: Output Run Number
+      #   run: echo ${{ github.run_number }}
+      # - name: Output Run Attempt
+      #   run: echo ${{ github.run_attempt }}
 
       - name: Extract branch name
         shell: bash
