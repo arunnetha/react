@@ -38,3 +38,4 @@ jobs:
         run: |
           # Insert deployment commands here using $ENVIRONMENT variable as environment name
           echo ${{ secrets.TEST }}
+          echo ${{ env.TEST }}
