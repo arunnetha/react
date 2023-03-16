@@ -3,7 +3,7 @@ name: Multi-branch Pipeline
 on:
   push:
     branches:
-      - dev
+      - development
   pull_request:
     branches:
       - qa
