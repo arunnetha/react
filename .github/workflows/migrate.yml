@@ -11,7 +11,7 @@ on:
     types:
       - "closed"
 jobs:
-  build-and-test:
+  TEST1:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
     steps:
@@ -25,12 +25,52 @@ jobs:
       # - name: Output Run Attempt
       #   run: echo ${{ github.run_attempt }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
-        id: extract_branch
-      - name: setup env name
-        run: echo ${{ steps.extract_branch.outputs.branch }}
+      # - name: Extract branch name
+      #   shell: bash
+      #   run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
+      #   id: extract_branch
+      # - name: setup env name
+      #   run: echo ${{ steps.extract_branch.outputs.branch }}
+
+      - name: Deploy to environment
+        run: |
+          if [ "$MYSECRET" == "development" ]
+          then
+            echo "Got secret"
+          else
+            echo "no secret"
+          fi
+          
+          if [ "$env_vars" == "development" ]
+          then
+            echo "variables matched"
+          else
+            echo "variables not matched"
+          fi
+        env:
+          # ENVIRONMENT: ${{ steps.extract_branch.outputs.branch }}
+          MYSECRET: ${{ secrets.TEST}}
+          env_vars: ${{ vars.ETEST }}
+  TEST2:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # - name: Output Run ID
+      #   run: echo ${{ github.run_id }}
+      # - name: Output Run Number
+      #   run: echo ${{ github.run_number }}
+      # - name: Output Run Attempt
+      #   run: echo ${{ github.run_attempt }}
+
+      # - name: Extract branch name
+      #   shell: bash
+      #   run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
+      #   id: extract_branch
+      # - name: setup env name
+      #   run: echo ${{ steps.extract_branch.outputs.branch }}
 
       - name: Deploy to environment
         run: |
