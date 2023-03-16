@@ -21,13 +21,10 @@ jobs:
       - name: Output Run ID
         run: echo ${{ github.run_id }}
 
-      - name: Output Run ID
+      - name: Setup AWS
         run: |
-          env.BUILD_NUMBER = sh(
-            script: 'node -pe "require(\'./package.json\').version"',
-            returnStdout: true
-          ).trim()
-          echo env.BUILD_NUMBER
+          PACKAGE_VERSION = awk '/version/{gsub(/("|",)/,"",$2);print $2};' package.json
+          echo $PACKAGE_VERSION
 
       - name: Deploy to environment
         run: |
