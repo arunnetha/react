@@ -11,42 +11,23 @@ on:
     types:
       - "closed"
 jobs:
-  TEST1:
+  Build:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Output Run ID
         run: echo ${{ github.run_id }}
 
-      - name: Deploy to environment
+      - name: Output Run ID
         run: |
-          if [ "$MYSECRET" == "development" ]
-          then
-            echo "Got secret"
-          else
-            echo "no secret"
-          fi
-          
-          if [ "$env_vars" == "development" ]
-          then
-            echo "variables matched"
-          else
-            echo "variables not matched"
-          fi
-        env:
-          MYSECRET: ${{ secrets.TEST}}
-          env_vars: ${{ vars.ETEST }}
-  TEST2:
-    runs-on: ubuntu-latest
-    environment: ${{ github.ref_name }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Output Run ID
-        run: echo ${{ github.run_id }}
+          env.BUILD_NUMBER = sh(
+            script: 'node -pe "require(\'./package.json\').version"',
+            returnStdout: true
+          ).trim()
+          echo env.BUILD_NUMBER
 
       - name: Deploy to environment
         run: |
@@ -64,5 +45,6 @@ jobs:
             echo "variables not matched"
           fi
         env:
-          MYSECRET: ${{ secrets.TEST}}
-          env_vars: ${{ vars.ETEST }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          NPM_TOKEN: ${{ NPM_AUTH_TOKEN}}
