@@ -46,3 +46,7 @@ jobs:
           else
             echo "${{ github.ref_name }} not found"
           fi
+      - name: testing
+        run: |
+          cat .env
+          
