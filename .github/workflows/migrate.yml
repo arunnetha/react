@@ -31,15 +31,15 @@ jobs:
 
       - name: Setup environment
         run: |
-          if [ ${{ github.ref_name }} == "dev" ]
+          if [ ${{ github.ref_name }} == "development" ]
           then
             echo "\nNODE_ENV=${{ github.ref_name}}" >> .env
             cat .env
-          elif [ ${{ github.ref_name }} == "release/*" ]
+          elif [ ${{ github.ref_name }} == "qa" ]
           then
             echo "\nNODE_ENV=stage" >> .env
             cat .env
-          elif [ ${{ github.ref_name }} == "production" ]
+          elif [ ${{ github.ref_name }} == "non-prod" ]
           then
             echo "\nNODE_ENV=production" >> .env
             cat .env
