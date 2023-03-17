@@ -35,7 +35,7 @@ jobs:
           if [ ${{ github.ref_name }} == "development" ]
           then
             DIR_NAME=dev
-            $DIR_NAME
+            echo "branch=$DIR_NAME" >> $GITHUB_OUTPUT
             cat .env
           elif [ ${{ github.ref_name }} == "qa" ]
           then
@@ -51,5 +51,5 @@ jobs:
         id: DIR_NAME
       - name: testing
         run: |
-          echo ${{ steps.DIR_NAME.outputs }}
+          echo ${{ steps.DIR_NAME.outputs.branch }}
           
