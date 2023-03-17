@@ -30,10 +30,12 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN}}
 
       - name: Setup environment
+        shell: bash
         run: |
           if [ ${{ github.ref_name }} == "development" ]
           then
-            echo "\nNODE_ENV=${{ github.ref_name}}" >> .env
+            DIR_NAME=dev
+            $DIR_NAME
             cat .env
           elif [ ${{ github.ref_name }} == "qa" ]
           then
@@ -46,7 +48,8 @@ jobs:
           else
             echo "${{ github.ref_name }} not found"
           fi
+        id: DIR_NAME
       - name: testing
         run: |
-          cat .env
+          echo ${{ steps.DIR_NAME.outputs.DIR_NAME }}
           
