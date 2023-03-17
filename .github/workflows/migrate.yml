@@ -36,6 +36,7 @@ jobs:
           then
             DIR_NAME=dev
             echo "branch=$DIR_NAME" >> $GITHUB_OUTPUT
+            echo "\nNODE_ENV=dev" >> .env
             cat .env
           elif [ ${{ github.ref_name }} == "qa" ]
           then
