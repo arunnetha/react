@@ -11,38 +11,38 @@ on:
     types:
       - "closed"
 jobs:
-  Build:
+  Setup_AWS:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Output Run ID
-        run: echo ${{ github.run_id }}
-
       - name: Setup AWS
-        shell: bash
         run: |
-          awk '/version/{gsub(/("|",)/,"",$2);print $2};' package.json >>$PACKAGE_VERSION
-          echo $PACKAGE_VERSION
-
-      - name: Deploy to environment
-        run: |
-          if [ "$MYSECRET" == "qa" ]
-          then
-            echo "Got secret"
-          else
-            echo "no secret"
-          fi
-          
-          if [ "$env_vars" == "qa" ]
-          then
-            echo "variables matched"
-          else
-            echo "variables not matched"
-          fi
+          BUILD_NUMBER=$(awk '/version/{gsub(/("|",)/,"",$2);print $2};' package.json)
+          echo $BUILD_NUMBER
+          mkdir ~/.aws && echo "[default]\nregion=us-west-2\noutput=json" > ~/.aws/config
+          cat ~/.aws/config
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN}}
+
+      - name: Setup environment
+        run: |
+          if [ ${{ github.ref_name }} == "dev" ]
+          then
+            echo "\nNODE_ENV=${{ github.ref_name}}" >> .env
+            cat .env
+          elif [ ${{ github.ref_name }} == "release/*" ]
+          then
+            echo "\nNODE_ENV=stage" >> .env
+            cat .env
+          elif [ ${{ github.ref_name }} == "production" ]
+          then
+            echo "\nNODE_ENV=production" >> .env
+            cat .env
+          else
+            echo "${{ github.ref_name }} not found"
+          fi
