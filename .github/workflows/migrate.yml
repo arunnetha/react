@@ -51,9 +51,11 @@ jobs:
           fi
         id: DIR_NAME
       - name: testing
+        shell: bash
         run: |
           echo ${{ steps.DIR_NAME.outputs.branch }}
           echo $MYTEST
+        id: export
         env:
           MYTEST: ${{ vars.E_TEST }}
 
