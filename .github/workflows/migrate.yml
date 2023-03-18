@@ -54,6 +54,8 @@ jobs:
         shell: bash
         run: |
           echo "${{ steps.DIR_NAME.outputs.branch }}/$MYTEST:$MYTEST"
+          docker build -t vega-data-logger:latest .
+          docker tag vega-data-logger:latest 904956661349.dkr.ecr.us-west-2.amazonaws.com/tent-vega-data-logger/${{ steps.DIR_NAME.outputs.branch }}:v$MYTEST
         id: export
         env:
           MYTEST: ${{ vars.E_TEST }}
