@@ -53,6 +53,8 @@ jobs:
       - name: testing
         run: |
           echo ${{ steps.DIR_NAME.outputs.branch }}
-          echo ${{ vars.ETEST }}
+          echo $MYTEST
+        env:
+          MYTEST: ${{ vars.ETEST }}
 
           
