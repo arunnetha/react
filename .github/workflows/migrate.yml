@@ -55,6 +55,6 @@ jobs:
           echo ${{ steps.DIR_NAME.outputs.branch }}
           echo $MYTEST
         env:
-          MYTEST: ${{ vars.ETEST }}
+          MYTEST: ${{ vars.E_TEST }}
 
           
