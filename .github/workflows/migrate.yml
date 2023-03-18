@@ -56,7 +56,8 @@ jobs:
         shell: bash
         run: |
           echo "${{ steps.DIR_NAME.outputs.branch }}/$MYTEST:$MYTEST"
-          docker build -t vega-data-logger:latest .
+          docker-compose build
+          # docker build -t vega-data-logger:latest .
           IMAGE="904956661349.dkr.ecr.us-west-2.amazonaws.com/tent-vega-data-logger/${{ steps.DIR_NAME.outputs.branch }}:v$VERSION"
           echo $IMAGE
           docker tag vega-data-logger:latest $IMAGE
