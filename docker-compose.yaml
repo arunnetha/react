@@ -2,5 +2,4 @@ version: '3'
 services:
   app:
     build: .
-    tag: latest
-    image: vega-data-logger
+    image: vega-data-logger:latest
