@@ -19,11 +19,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup AWS
+        shell: bash
         run: |
           BUILD_NUMBER=$(awk '/version/{gsub(/("|",)/,"",$2);print $2};' package.json)
-          echo $BUILD_NUMBER
+          echo "IMAGE_TAG=$BUILD_NUMBER" >> $GITHUB_OUTPUT
           mkdir ~/.aws && echo "[default]\nregion=us-west-2\noutput=json" > ~/.aws/config
           cat ~/.aws/config
+        id: version
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -55,9 +57,10 @@ jobs:
         run: |
           echo "${{ steps.DIR_NAME.outputs.branch }}/$MYTEST:$MYTEST"
           docker build -t vega-data-logger:latest .
-          docker tag vega-data-logger:latest 904956661349.dkr.ecr.us-west-2.amazonaws.com/tent-vega-data-logger/${{ steps.DIR_NAME.outputs.branch }}:v$MYTEST
+          docker tag vega-data-logger:latest 904956661349.dkr.ecr.us-west-2.amazonaws.com/tent-vega-data-logger/${{ steps.DIR_NAME.outputs.branch }}:v$VERSION
         id: export
         env:
           MYTEST: ${{ vars.E_TEST }}
+          VERSION: ${{ steps.version.outputs.IMAGE_TAG }}
 
           
