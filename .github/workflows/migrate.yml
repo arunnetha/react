@@ -53,8 +53,7 @@ jobs:
       - name: testing
         shell: bash
         run: |
-          echo ${{ steps.DIR_NAME.outputs.branch }}
-          echo $MYTEST
+          echo "${{ steps.DIR_NAME.outputs.branch }}/$MYTEST:$MYTEST"
         id: export
         env:
           MYTEST: ${{ vars.E_TEST }}
