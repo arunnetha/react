@@ -11,7 +11,7 @@ on:
     types:
       - "closed"
 jobs:
-  Setup_AWS:
+  env_setup:
     runs-on: ubuntu-latest
     steps:
       - name: Some check on branch
@@ -21,13 +21,21 @@ jobs:
           if [ "${{ github.ref }}" = "refs/heads/master" ]; then
             echo "::set-output name=env_name::Production"
           elif [ "${{ github.ref }}" = "refs/heads/development" ]; then
-            echo "::set-output name=env_name::Test"
+            echo "::set-output name=env_name::development"
           else
              echo "::set-output name=env_name::Features"
           fi         
           
       - name: Use variable setup in previous step
         run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
-        
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
+  Build:
+    runs-on: ubuntu-latest
+    needs: env_setup
+    environment: ${{ steps.branch_check.outputs.env_name }}
+    steps:
+      - name: test
+        run: |
+          echo ${{ steps.branch_check.outputs.env_name }}
+          echo ${{ vars.E_TEST }}
