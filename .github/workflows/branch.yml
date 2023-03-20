@@ -20,10 +20,13 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ github.ref }}" = "refs/heads/master" ]; then
             echo "env_name=Production" >> $GITHUB_OUTPUT
+            echo "S3_DIR=prod" >> $GITHUB_OUTPUT
           elif [ "${{ github.ref }}" = "refs/heads/development" ]; then
             echo "env_name=development" >> $GITHUB_OUTPUT
+            echo "S3_DIR=dev" >> $GITHUB_OUTPUT
           else
-             echo "env_name=Features" >> $GITHUB_OUTPUT
+             echo "env_name=stage" >> $GITHUB_OUTPUT
+             echo "S3_DIR=stage" >> $GITHUB_OUTPUT
           fi         
           
       - name: Use variable setup in previous step
@@ -39,3 +42,4 @@ jobs:
         run: |
           echo ${{ needs.env_setup.outputs.env_name }}
           echo ${{ vars.E_TEST }}
+          echo ${{ needs.env_setup.outputs.S3_DIR }}
