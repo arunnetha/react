@@ -33,9 +33,9 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     needs: env_setup
-    environment: ${{ steps.branch_check.outputs.env_name }}
+    environment: ${{ needs.env_setup.outputs.env_name }}
     steps:
       - name: test
         run: |
-          echo ${{ steps.branch_check.outputs.env_name }}
+          echo ${{ needs.env_setup.outputs.env_name }}
           echo ${{ vars.E_TEST }}
