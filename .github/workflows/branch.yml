@@ -1,15 +1,13 @@
 name: Multi-branch Pipeline
 
 on:
-  workflow_dispatch:
-    branches:
-      - development
   pull_request:
     branches:
       - qa
       - non-prod
     types:
       - "closed"
+  workflow_dispatch:
 jobs:
   env_setup:
     runs-on: ubuntu-latest
