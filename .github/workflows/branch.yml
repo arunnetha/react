@@ -11,6 +11,8 @@ on:
     types:
       - "closed"
   workflow_dispatch:
+    branches:
+      - feature/*
 jobs:
   env_setup:
     runs-on: ubuntu-latest
