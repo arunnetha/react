@@ -1,16 +1,10 @@
-name: Multi-branch Pipeline
+name: stage Pipeline
 
 on:
-  push:
-    branches:
-      - development
-  pull_request:
-    branches:
-      - qa
-      - master
-    types:
-      - "closed"
   workflow_dispatch:
+    branches:
+      - feature/*
+
 jobs:
   env_setup:
     runs-on: ubuntu-latest
