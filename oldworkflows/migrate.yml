@@ -1,0 +1,70 @@
+name: Multi-branch Pipeline
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+    branches:
+      - qa
+      - non-prod
+    types:
+      - "closed"
+jobs:
+  Setup_AWS:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup AWS
+        shell: bash
+        run: |
+          BUILD_NUMBER=$(awk '/version/{gsub(/("|",)/,"",$2);print $2};' package.json)
+          echo "IMAGE_TAG=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          mkdir ~/.aws && echo "[default]\nregion=us-west-2\noutput=json" > ~/.aws/config
+          cat ~/.aws/config
+        id: version
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN}}
+
+      - name: Setup environment
+        shell: bash
+        run: |
+          if [ ${{ github.ref_name }} == "development" ]
+          then
+            DIR_NAME=dev
+            echo "branch=$DIR_NAME" >> $GITHUB_OUTPUT
+            echo "\nNODE_ENV=dev" >> .env
+            cat .env
+          elif [ ${{ github.ref_name }} == "qa" ]
+          then
+            echo "\nNODE_ENV=stage" >> .env
+            cat .env
+          elif [ ${{ github.ref_name }} == "non-prod" ]
+          then
+            echo "\nNODE_ENV=production" >> .env
+            cat .env
+          else
+            echo "${{ github.ref_name }} not found"
+          fi
+        id: DIR_NAME
+      - name: testing
+        shell: bash
+        run: |
+          echo "${{ steps.DIR_NAME.outputs.branch }}/$MYTEST:$MYTEST"
+          docker-compose build
+          # docker build -t vega-data-logger:latest .
+          IMAGE="904956661349.dkr.ecr.us-west-2.amazonaws.com/tent-vega-data-logger/${{ steps.DIR_NAME.outputs.branch }}:v$VERSION"
+          echo $IMAGE
+          docker tag vega-data-logger:latest $IMAGE
+          docker images
+        id: export
+        env:
+          MYTEST: ${{ vars.E_TEST }}
+          VERSION: ${{ steps.version.outputs.IMAGE_TAG }}
+
+          
