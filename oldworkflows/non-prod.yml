@@ -3,6 +3,11 @@ name: non-prod build
 on:
 
   workflow_dispatch:
+    inputs:
+      release_version:
+        required: true
+        description: 'testing'
+
 
 jobs:
   build:
@@ -12,10 +17,14 @@ jobs:
       matrix:
         node-version: [12.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    env:
+      branchname: refs/heads/${{ inputs.release_version }}
     steps:
     - name: Clone repository
       uses: actions/checkout@v3
+      with:
+          name: arunnetha/react
+          ref: ${{ env.branchname }}
     - name: Use Node.js ${{ matrix.node-version }}
       # uses: actions/setup-node@v3
       uses: actions/setup-node@v1
