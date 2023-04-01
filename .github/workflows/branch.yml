@@ -58,4 +58,10 @@ jobs:
     needs: Build
     steps:
       - name: check
-        run: echo ${{ needs.build.outputs.myimagename }}
+        run: |
+          echo ${{ needs.build.outputs.myimagename }}
+          imagename=$(awk '/image/{gsub(/("|",)/,"",$2);print $2};' task-defination.json)
+
+      - name: check imagename
+        run: |
+          echo $imagename
