@@ -1,7 +1,7 @@
 name: Multi-branch Pipeline
 
 on:
-  push:
+  workflow_dispatch:
     branches:
       - development
   pull_request:
@@ -60,8 +60,4 @@ jobs:
       - name: check
         run: |
           echo ${{ needs.build.outputs.myimagename }}
-          imagename=$(awk '/image/{gsub(/("|",)/,"",$2);print $2};' task-defination.json)
-
-      - name: check imagename
-        run: |
-          echo $imagename
+          # imagename=$(awk '/image/{gsub(/("|",)/,"",$2);print $2};' task-defination.json)
