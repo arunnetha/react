@@ -10,7 +10,9 @@ on:
       - master
     types:
       - "closed"
-  workflow_dispatch:
+  # workflow_dispatch:
+  #   branches:
+  #     - feature/*
 jobs:
   env_setup:
     runs-on: ubuntu-latest
