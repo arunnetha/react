@@ -21,7 +21,9 @@ jobs:
       - name: Daily branch creation
         run: |
           branchdate=$(date '+%Y%m%d')
+          echo $branchdate
           git branch -m $branchdate
+          git push origin $branchdate
       - name: Use node.js
         uses: actions/setup-node/@v2
         with:
