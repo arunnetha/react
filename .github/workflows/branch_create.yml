@@ -1,30 +1,30 @@
-name: Lint & Test
+# name: Lint & Test
 
-on:
-  schedule:
-    - cron: '0 7 * * *' # Daily run at 7am UTC
-  pull_request:
-    branches:
-      - main
-    types:
-      - "closed"
-  workflow_dispatch:
+# on:
+#   schedule:
+#     - cron: '0 7 * * *' # Daily run at 7am UTC
+#   pull_request:
+#     branches:
+#       - main
+#     types:
+#       - "closed"
+#   workflow_dispatch:
 
-jobs:
-  build:
-    name: build and unit test
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     name: build and unit test
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Daily branch creation
-        run: |
-          branchdate=$(date '+%Y%m%d')
-          echo $branchdate
-          git branch -m $branchdate
-          git push origin $branchdate
-      - name: Use node.js
-        uses: actions/setup-node/@v2
-        with:
-          node-version: "16.x"
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#       - name: Daily branch creation
+#         run: |
+#           branchdate=$(date '+%Y%m%d')
+#           echo $branchdate
+#           git branch -m $branchdate
+#           git push origin $branchdate
+#       - name: Use node.js
+#         uses: actions/setup-node/@v2
+#         with:
+#           node-version: "16.x"
