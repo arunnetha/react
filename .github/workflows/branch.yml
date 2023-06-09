@@ -56,8 +56,7 @@ jobs:
           echo ${{ vars.E_TEST }}
           echo ${{ needs.env_setup.outputs.S3_DIR }}
           echo "ip=${{ secrets.DB_IP }}"" > test.sh
-          source test.sh
-          echo $ip
+          cat /etc/hosts
       - name: image test
         shell: bash
         id: imagename
