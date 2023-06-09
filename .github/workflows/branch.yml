@@ -55,7 +55,8 @@ jobs:
           echo ${{ needs.env_setup.outputs.env_name }}
           echo ${{ vars.E_TEST }}
           echo ${{ needs.env_setup.outputs.S3_DIR }}
-          echo ${{ secrets.DB_IP }}
+          echo ${{ secrets.DB_IP }} > test.log
+          cat test.log
       - name: image test
         shell: bash
         id: imagename
